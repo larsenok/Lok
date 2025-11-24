@@ -3,7 +3,7 @@
 This repository provides a minimal workflow for fine-tuning an OpenAI GPT-4o-mini model with a JSONL chat dataset.
 
 ## Repository layout
-- `dataset/dataset.jsonl` – placeholder chat-format dataset. Replace with your own examples.
+- `dataset/dataset.jsonl` – your chat-format dataset (gitignored so you can supply your own examples).
 - `scripts/upload.py` – uploads the dataset to OpenAI Files for fine-tuning.
 - `scripts/train.py` – starts a fine-tuning job from an uploaded file.
 - `scripts/check_status.py` – checks job status and prints the fine-tuned model name when ready.
@@ -28,10 +28,18 @@ You can also provide the model name via `config.json` at the repo root:
 ```
 
 ## Prepare the dataset
-Replace `dataset/dataset.jsonl` with your own JSONL file. Each line should be a chat example:
+Create `dataset/dataset.jsonl` with one JSON object per line. Each line should represent a single chat example that includes a system prompt, a user message, and the assistant reply:
 ```jsonl
-{"messages": [{"role": "system", "content": "You are a helpful bot."}, {"role": "user", "content": "Hi!"}, {"role": "assistant", "content": "Hello!"}]}
+{"messages": [
+  {"role": "system", "content": "You are a helpful assistant."},
+  {"role": "user", "content": "How can I break down a big weekend chore list so it feels manageable?"},
+  {"role": "assistant", "content": "Here is a clear, prioritized plan you can follow."}
+]}
 ```
+Guidance on dataset size for GPT-4o-mini experiments:
+- **Minimum to run**: ~10 high-quality Q&A pairs.
+- **Recommended starting point**: 50–100 varied examples.
+- **Plenty for a small experiment**: 200+ well-edited examples.
 Ensure the dataset is tokenized efficiently—long prompts and responses count toward token usage.
 
 ## Upload the dataset
