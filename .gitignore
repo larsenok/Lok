@@ -1,2 +1,4 @@
-# Local fine-tuning datasets
-/dataset/dataset.jsonl
+# Local fine-tuning datasets (ignore everything in dataset except the shared example)
+/dataset/*
+!/dataset
+!/dataset/dataset.jsonl
