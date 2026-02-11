@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrialForge</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header window chrome">
+        <div class="title-row">
+          <div>
+            <h1>TrialForge</h1>
+            <p class="sub">Prompt comparison lab + fine-tune workflow control panel.</p>
+          </div>
+          <div class="window-dots" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="hero panel chrome">
+        <h2>Prompt Lab</h2>
+        <p>Compare two prompt strategies, review automatic evaluation, and vote on the winner. Prompt templates and vote history are saved in your browser.</p>
+        <ul>
+          <li>Store reusable prompt templates.</li>
+          <li>Run A/B comparisons against the same task input.</li>
+          <li>Track A/B/Tie votes and recent runs.</li>
+        </ul>
+      </section>
+
+      <div class="api-key-row panel chrome">
+        <label for="apiKeyInput">OpenAI API Key (optional, stored locally in this browser)</label>
+        <div class="key-controls">
+          <input id="apiKeyInput" type="password" placeholder="sk-..." />
+          <button id="saveApiKey">Save</button>
+          <button id="clearApiKey" class="ghost">Clear</button>
+          <span id="apiKeyStatus"></span>
+        </div>
+      </div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="lab">Prompt Lab</button>
+        <button class="tab" data-tab="market">Prompt Library</button>
+        <button class="tab" data-tab="cli">CLI Runner</button>
+        <button class="tab" data-tab="dataset">Dataset Builder</button>
+      </nav>
+
+      <section id="lab" class="panel chrome active">
+        <h2>Prompt Lab</h2>
+        <label>Model
+          <input id="model" placeholder="ft:gpt-4o-mini-... (optional)" />
+        </label>
+        <label>Scenario / task input
+          <textarea id="taskInput" rows="6" placeholder="Paste the task or scenario to evaluate..."></textarea>
+        </label>
+        <div class="grid2">
+          <label>Strategy A prompt
+            <textarea id="strategyAPrompt" rows="4" placeholder="Direct, concise, structured response..."></textarea>
+          </label>
+          <label>Strategy B prompt
+            <textarea id="strategyBPrompt" rows="4" placeholder="Thorough reasoning with caveats and edge cases..."></textarea>
+          </label>
+        </div>
+        <label>Evaluator prompt
+          <input id="evaluatorPrompt" placeholder="Evaluate correctness, usefulness, and clarity." />
+        </label>
+        <button id="runLab">Run Comparison</button>
+
+        <div class="grid2 topgap">
+          <article>
+            <h3>Output A</h3>
+            <pre id="outputA"></pre>
+          </article>
+          <article>
+            <h3>Output B</h3>
+            <pre id="outputB"></pre>
+          </article>
+        </div>
+        <article class="topgap">
+          <h3>Evaluation</h3>
+          <pre id="evaluationOut"></pre>
+        </article>
+
+        <article class="topgap votes chrome-inner">
+          <h3>Vote</h3>
+          <div class="vote-actions">
+            <button id="voteA">A wins</button>
+            <button id="voteTie">Tie</button>
+            <button id="voteB">B wins</button>
+          </div>
+          <p id="voteTotals" class="muted"></p>
+          <ul id="voteHistory" class="history-list"></ul>
+        </article>
+      </section>
+
+      <section id="market" class="panel chrome">
+        <h2>Prompt Library</h2>
+        <p>Store reusable prompts and apply them in Prompt Lab.</p>
+        <div class="grid2">
+          <label>Template name
+            <input id="templateName" placeholder="Reasoning Baseline v3" />
+          </label>
+          <label>Slot
+            <select id="templateRole">
+              <option value="strategy_a">Strategy A</option>
+              <option value="strategy_b">Strategy B</option>
+              <option value="evaluator">Evaluator</option>
+            </select>
+          </label>
+        </div>
+        <label>Template prompt
+          <textarea id="templateText" rows="5" placeholder="Enter reusable instructions..."></textarea>
+        </label>
+        <button id="saveTemplate">Save Template</button>
+        <ul id="marketList" class="market-list"></ul>
+      </section>
+
+      <section id="cli" class="panel chrome">
+        <h2>CLI Runner</h2>
+        <p>Run the existing scripts from a web interface.</p>
+        <div class="grid4">
+          <button class="cliBtn" data-command="upload">Upload dataset</button>
+          <input id="fileId" placeholder="file-... for train" />
+          <input id="jobId" placeholder="ftjob-... for status" />
+          <input id="baseModel" placeholder="gpt-4o-mini (optional)" />
+        </div>
+        <div class="grid4 topgap">
+          <button class="cliBtn" data-command="train">Start training</button>
+          <button class="cliBtn" data-command="status">Check status</button>
+          <button class="cliBtn" data-command="infer">Run infer</button>
+        </div>
+        <pre id="cliOut" class="terminal"></pre>
+      </section>
+
+      <section id="dataset" class="panel chrome">
+        <h2>Dataset Builder</h2>
+        <p>Create fine-tuning examples visually and export JSONL for <code>dataset/dataset.jsonl</code>.</p>
+        <div id="examples"></div>
+        <button id="addExample">+ Add Example</button>
+        <button id="exportJsonl">Export JSONL</button>
+        <textarea id="jsonlOut" rows="10" placeholder="Export output will appear here..."></textarea>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

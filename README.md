@@ -8,6 +8,7 @@ This repository provides a minimal workflow for fine-tuning an OpenAI GPT-4o-min
 - `scripts/train.py` – starts a fine-tuning job from an uploaded file.
 - `scripts/check_status.py` – checks job status and prints the fine-tuned model name when ready.
 - `scripts/infer.py` – runs a quick chat completion against the fine-tuned model.
+- `trialforge/` – optional browser UI for prompt strategy comparisons, dataset authoring, and one-click CLI actions.
 
 ## Installation
 1. (Optional) Create and activate a virtual environment.
@@ -71,3 +72,10 @@ The script sends a short chat prompt to verify the model is responding.
 - **Tokens**: Pricing and limits depend on total tokens per example (prompt + completion). Shorter messages reduce cost and time.
 - **Epochs**: OpenAI fine-tuning runs multiple epochs by default; more epochs can improve learning but risk overfitting on tiny datasets.
 - **Dataset size**: Larger datasets generally yield more robust models. Aim for diverse, high-quality examples rather than quantity alone.
+
+## Optional frontend (TrialForge)
+Run a polished web UI for prompt strategy comparisons and existing CLI scripts:
+```bash
+python trialforge/server.py
+```
+Then open `http://localhost:8080`. See `trialforge/README.md` for details.
